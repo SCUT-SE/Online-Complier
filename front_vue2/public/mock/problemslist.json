@@ -1,0 +1,30 @@
+{
+    "status":"0",
+    "msg":"",
+    "result":[
+        {
+            "problemId":"0",
+            "author":"hyh",
+            "content":"a test poblem",
+            "other-resource":"1.jpg"
+        },
+        {
+            "problemId":"1",
+            "author":"hyh",
+            "content":"a test poblem",
+            "other-resource":"2.jpg"
+        },
+        {
+            "problemId":"2",
+            "author":"hyh",
+            "content":"a test poblem",
+            "other-resource":"3.jpg"
+        },
+        {
+            "problemId":"3",
+            "author":"hyh",
+            "content":"a test poblem",
+            "other-resource":"4.jpg"
+        }
+    ]
+}

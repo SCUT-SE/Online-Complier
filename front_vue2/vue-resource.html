@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/vue-resource/dist/vue-resource.js"></script>
+    
+</head>
+<body>
+    <div id="app">
+        <h1>vue-resource 插件</h1>
+        <a href="javascript:;" v-on:click="get">Get API</a>
+        <a href="javascript:;" v-on:click="post">Post API</a>
+        <a href="javascript:;" v-on:click="jsonp">JSONP API</a>
+        <div>
+            <span>{{msg}}</span>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                msg:""
+            },
+            // 全局拦截器
+            mounted:function(){
+                Vue.http.interceptors.push(function(req,next){
+                    console.log("request init.");
+                    next(function(req){
+                        console.log("respose init");
+                        return req;
+                    })
+                })
+            },
+            http:{
+                root:"http://127.0.0.1:5500/",
+            },
+            methods:{
+                get:function(){
+                    this.$http.get("package.json",{
+                        params:{
+                            userId:"101",
+                        },
+                        headers:{
+                            token:"hyhhyhhyh",//申请第三方服务，需要类似字段
+                        }
+                    }).then(res=>{
+                        this.msg=res.data;
+                    },error=>{
+                        this.msg = error;
+                    })
+                },
+                post:function(){
+                    this.$http.post("package.json",{
+                        userId:"102",
+                    },{
+                        headers:{
+                            access_token:"HYHHYHHYH"
+                        }
+                    }).then(function(res){
+                        this.msg=res.data;
+                    },error=>{
+                        this.msg = error;
+                    })
+                },
+                jsonp:function(){
+                    this.$http.jsonp("package.json").then(function(res){
+                        // Uncaught SyntaxError: Unexpected token ':'
+                        this.msg=res.data;
+                    })
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>
+
