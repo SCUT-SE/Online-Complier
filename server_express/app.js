@@ -10,7 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 //login and sign in
-var loginRouter = require('./routes/login')
+var loginRouter = require('./routes/reqLogin')
 
 
 var app = express();
@@ -34,10 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 所有路由都在这里定义：
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/demo_oj', goods);
-app.use('/reqLogin',loginRouter);
+app.use('/api/reqLogin',loginRouter);
 
 
 // catch 404 and forward to error handler

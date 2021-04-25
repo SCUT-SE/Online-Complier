@@ -1,7 +1,7 @@
 # API 文档
 # Done
 ## 登录api
-* api地址 http://localhost:3000/reqLogin
+* api地址 http://localhost:3000/api/reqLogin
 ### request格式（post）
 ```json
 {
@@ -26,7 +26,7 @@
 # TO DO
 
 ## 注册api
-* api地址 http://localhost:3000/reqSignIn
+* api地址 http://localhost:3000/api/reqSignIn
 ### request格式（post）
 ```json
 {
