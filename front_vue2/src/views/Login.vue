@@ -6,17 +6,22 @@
             </div>
             <el-form :rules="loginRules" :model="loginForm" ref="loginFormRef" label-width="0px" class="login_form">
                 <p v-show="loginForm.errorTip" style="color: red;">用户密码错误</p>
+                <el-form-item >
+                    <el-radio-group v-model="loginForm.type">
+                        <el-radio label="面试官"></el-radio>
+                        <el-radio label="应聘者"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item prop='username'>
                     <el-input v-model="loginForm.username" prefix-icon="el-icon-user"></el-input>
                 </el-form-item>
                 <el-form-item prop='password'>
                     <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"></el-input>
                     </el-form-item>
-
                     <el-row class='btns'>
                     <el-button type="primary" @click="login">登录</el-button>
+                    <el-button type="primary" @click="signIn">注册</el-button>
                     <el-button type="info" @click="resetLoginForm">重置</el-button>
-
                     </el-row>
             </el-form>
         </div>
@@ -33,6 +38,7 @@ export default {
                 username:'test1@mail.com',
                 password:'123456',
                 errorTip:false,
+                type:"应聘者",
             },
             loginRules: {
             //   用户名验证
@@ -61,16 +67,16 @@ export default {
                 // console.log(valid);
                 if(!valid)return;
                 // this.$http.post('login',this.loginForm);
-                axios.post('/reqLogin',{
+                axios.post('/api/reqLogin',{
                     username: this.loginForm.username,
                     password: this.loginForm.password,
-                    type: 1,
+                    type: this.loginForm.type=="应聘者"?0:1,
                 })
                 .then(response=>{
                     // this.items = response.data.result.list;
                     console.log(response.data.result);
                     let res = response.data;
-                    if(res.status=="0"){
+                    if(res.status=="1"){
                         // 登录成功
                         this.loginForm.errorTip=false;
                         this.$message.success('登录成功');
@@ -88,6 +94,42 @@ export default {
                         this.loginForm.errorTip=true;
                         window.sessionStorage.clear();
                         this.$message.error('登录失败');
+                    }
+                },error=>{
+                    console.log(error);
+                });
+            })
+            
+        },
+        signIn(){
+            this.$refs.loginFormRef.validate(valid=>{
+                // console.log(valid);
+                if(!valid)return;
+                // this.$http.post('login',this.loginForm);
+                axios.post('/api/reqSignIn',{
+                    username: this.loginForm.username,
+                    password: this.loginForm.password,
+                    type: this.loginForm.type=="应聘者"?0:(this.loginForm.type=="面试官"?1:-1),
+                })
+                .then(response=>{
+                    // this.items = response.data.result.list;
+                    console.log(response.data.result);
+                    let res = response.data;
+                    if(res.status=="1"){
+                        // 登录成功
+                        this.loginForm.errorTip=false;
+                        this.$message.success('注册成功');
+                        // to do
+                        // 1.将登录成功后的username(token)保存到客户端 sessionStorage
+                        //  1.1 项目的其他api接口只有拥有token才能访问
+                        //  1.2 sessionStorage而不是localStorage哦
+                        //  1.3 token加密需要后端实现，比较复杂，这里暂时用username代替hhh
+
+                        
+                    }else{
+                        this.loginForm.errorTip=true;
+                        window.sessionStorage.clear();
+                        this.$message.error('注册失败');
                     }
                 },error=>{
                     console.log(error);

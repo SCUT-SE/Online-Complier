@@ -11,6 +11,8 @@ var usersRouter = require('./routes/users');
 
 //login and sign in
 var loginRouter = require('./routes/reqLogin')
+var signInRouter = require('./routes/reqSignIn')
+
 
 
 var app = express();
@@ -39,6 +41,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/demo_oj', goods);
 app.use('/api/reqLogin',loginRouter);
+app.use('/api/reqSignIn',signInRouter);
+
 
 
 // catch 404 and forward to error handler

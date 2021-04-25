@@ -17,7 +17,7 @@ module.exports = {
                 //     '^/api': 'http://dev.admin.carrots.ptteng.com'
                 // },
             },
-            '/reqLogin': {
+            '/api': {
                 target: 'http://localhost:3000',
             },
         }

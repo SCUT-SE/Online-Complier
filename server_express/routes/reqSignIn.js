@@ -25,7 +25,7 @@ router.post('/',function(req,res,next){
         ersDatas.findOne(param,function(err,doc){
             if(err){
                 res.json({
-                    status:"1",
+                    status:"0",
                     msg:err.message,
                     result:{}
                 });
@@ -34,30 +34,82 @@ router.post('/',function(req,res,next){
                 if(doc){
                     var username = doc.username;
                     // 用户名重复
-                    // req.session.user=doc;
-                    // console.log(req.session);
                     res.json({
                         status:"0",
-                        msg:'用户名重复',
-                        result:{
-                            username:doc.username
-                        }
+                        msg:username+'用户名重复',
+                        result:{}
                     })
                 }else{
                     // 可以注册次用户名
-
                     // 向数据库插入用户名
-
-                    res.json({
-                        status:"1",
-                        msg:"not found",
-                        result:{}
-                    });
+                    new ersDatas(param).save(function(err,doc){
+                        if(err){
+                            res.json({
+                                status:"0",
+                                msg:err.message,
+                                result:{}
+                            });
+                        }
+                        else{
+                            res.json({
+                                status:"1",
+                                msg:param.username+"注册成功",
+                                result:{}
+                            });
+                        }
+                    })
                 }
             }
         })
     }
-    else if(lginType == 0){
-
+    else if(lginType == 0){ // 面试者
+        eesDatas.findOne(param,function(err,doc){
+            if(err){
+                res.json({
+                    status:"0",
+                    msg:err.message,
+                    result:{}
+                });
+            }
+            else{
+                if(doc){
+                    var username = doc.username;
+                    // 用户名重复
+                    res.json({
+                        status:"0",
+                        msg:username+'用户名重复',
+                        result:{}
+                    })
+                }else{
+                    // 可以注册次用户名
+                    // 向数据库插入用户名
+                    new eesDatas(param).save(param,function(err,doc){
+                        if(err){
+                            res.json({
+                                status:"0",
+                                msg:err.message,
+                                result:{}
+                            });
+                        }
+                        else{
+                            res.json({
+                                status:"1",
+                                msg:param.username+"注册成功",
+                                result:{}
+                            });
+                        }
+                    })
+                }
+            }
+        })
+    }
+    else{
+        res.json({
+            status:"0",
+            msg:"未定义用户类型！",
+            result:{}
+        });
     }
 })
+
+module.exports = router;

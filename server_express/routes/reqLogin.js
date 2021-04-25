@@ -29,7 +29,7 @@ router.post("/",function(req,res,next){
         ersDatas.findOne(param,function(err,doc){
             if(err){
                 res.json({
-                    status:"1",
+                    status:"0",
                     msg:err.message,
                     result:{}
                 });
@@ -43,7 +43,7 @@ router.post("/",function(req,res,next){
                     // req.session.user=doc;
                     // console.log(req.session);
                     res.json({
-                        status:"0",
+                        status:"1",
                         msg:'',
                         result:{
                             username:doc.username
@@ -51,7 +51,7 @@ router.post("/",function(req,res,next){
                     })
                 }else{
                     res.json({
-                        status:"1",
+                        status:"0",
                         msg:"not found",
                         result:{}
                     });
@@ -63,7 +63,7 @@ router.post("/",function(req,res,next){
         eesDatas.findOne(param,function(err,doc){
             if(err){
                 res.json({
-                    status:"1",
+                    status:"0",
                     msg:err.message,
                     result:{}
                 });
@@ -77,7 +77,7 @@ router.post("/",function(req,res,next){
                     // req.session.user=doc;
                     // console.log(req.session);
                     res.json({
-                        status:"0",
+                        status:"1",
                         msg:'',
                         result:{
                             username:doc.username
@@ -85,13 +85,20 @@ router.post("/",function(req,res,next){
                     })
                 }else{
                     res.json({
-                        status:"1",
+                        status:"0",
                         msg:"not found",
                         result:{}
                     });
                 }
             }
         })
+    }
+    else{
+        res.json({
+            status:"0",
+            msg:"未定义用户类型！",
+            result:{}
+        });
     }
 })
 
@@ -104,13 +111,13 @@ router.get("/",function(req,res,next){
     ersDatas.find({},function(err,doc){
         if(err){
             res.json({
-                status:'1',
+                status:'0',
                 mesg:err.message
             })
         }
         else{
             res.json({
-                status:'0',
+                status:'1',
                 msg:'',
                 result:{
                     count:doc.length,
