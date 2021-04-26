@@ -2,3 +2,4 @@ demos
 **/node_modules
 mongodb
 **/demo
+**/.vscode
