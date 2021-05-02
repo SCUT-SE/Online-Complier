@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
-
+// interviewees 数据表
 var productSchema = new Schema({
     "username":String,
     "password":String,
