@@ -1,18 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
 var ersDatas = require('../models/ers_datas');
 var eesDatas = require('../models/ees_datas');
-// 链接数据库
-mongoose.connect('mongodb://127.0.0.1:27017/demo_oj');
 
-mongoose.connection.on("connected",function(){
-    console.log("From reqLogin.js: DB connected success.")
-})
-
-mongoose.connection.on("error",function(){
-    console.log("From reqLogin.js: DB connected fail.")
-})
 
 router.post("/",function(req,res,next){
     // console.log(req);

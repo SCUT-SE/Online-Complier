@@ -1,24 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
 var ersDatas = require('../models/ers_datas');
 var eesDatas = require('../models/ees_datas');
 
-// 链接数据库
-mongoose.connect('mongodb://127.0.0.1:27017/demo_oj');
-
-mongoose.connection.on("connected",function(){
-    console.log("From reqSignIn.js: DB connected success.")
-})
-
-mongoose.connection.on("error",function(){
-    console.log("From reqSignIn.js: DB connected fail.")
-})
 
 router.post('/',function(req,res,next){
     var param = {
         username:req.body.username,
-        password:req.body.password,
     }
     let lginType=req.body.type;// 1-ersDatas, 0-eesDatas
     if(lginType == 1){

@@ -8,11 +8,21 @@ var goods = require('./routes/demo_oj');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var mongoose = require('mongoose')
 
 //login and sign in
 var loginRouter = require('./routes/reqLogin')
 var signInRouter = require('./routes/reqSignIn')
+// 链接数据库
+mongoose.connect('mongodb://127.0.0.1:27017/demo_oj');
 
+mongoose.connection.on("connected",function(){
+    console.log("DB connected success.")
+})
+
+mongoose.connection.on("error",function(){
+    console.log("DB connected fail.")
+})
 
 
 var app = express();
