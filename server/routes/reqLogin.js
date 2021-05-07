@@ -121,6 +121,7 @@ router.get("/",function(req,res,next){
             })
             // console.log(doc);
         }
+        
     })
     // res.send('hello, goods list .')
 })
