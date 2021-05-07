@@ -8,12 +8,13 @@ router.post('/',function(req,res,next){
     // 获取用户注册信息
     let param = {
         username:req.body.username,
+        password:req.body.password,
     }
     // 获取用户类型
     let lginType=req.body.type;// 1-ersDatas, 0-eesDatas
     if(lginType == 1){
         // 检查用户id是否重复
-        ersDatas.findOne(param,function(err,doc){
+        ersDatas.findOne({username:param.username},function(err,doc){
             // 数据库错误
             if(err){
                 res.json({
@@ -59,7 +60,7 @@ router.post('/',function(req,res,next){
     }
     else if(lginType == 0){ 
         // 面试者
-        eesDatas.findOne(param,function(err,doc){
+        eesDatas.findOne({username:param.username},function(err,doc){
             if(err){
                 res.json({
                     status:"0",
