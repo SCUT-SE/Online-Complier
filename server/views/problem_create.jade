@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(action="/api/problem/create" method="post")
+    题目名称
+    input(type="text" name="problem_title" )
+    br
+    题目内容
+    input(type="text" name="problem_content" ) 
+    br
+    难度
+    br
+    input(type="radio" name="difficulty" value=0) 
+    待定
+    input(type="radio" name="difficulty" value=1) 
+    简单
+    input(type="radio" name="difficulty" value=2) 
+    中等
+    input(type="radio" name="difficulty" value=3) 
+    困难
+    br
+    题目可见性
+    br
+    input(type="radio" name="status" value=0) 
+    公开
+    input(type="radio" name="status" value=1) 
+    仅自己可见
+    br
+    input(type="submit")

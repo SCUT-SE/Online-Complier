@@ -29,13 +29,14 @@ router.post("/",function(req,res,next){
                 if(doc){
                     // 找到匹配的数据
                     // 重要信息写入cookie和session
-                    // res.cookie("userId",doc.userId,{
-                    //     path:'/',
-                    //     maxAge:1000*60*60
-                    // });
-                    // req.session.user=doc;
-                    // console.log(req.session);
-                    // 返回response格式，登录成功
+                    res.cookie("userId",doc.userId,{
+                        path:'/',
+                        maxAge:1000*60*60
+                    });
+                    req.session.user=doc;
+                    req.session.userState=1;
+                    //console.log(req.session);
+                    //返回response格式，登录成功
                     res.json({
                         status:"1",
                         msg:'',
@@ -66,13 +67,14 @@ router.post("/",function(req,res,next){
             }else{
                 // console.log(doc);
                 if(doc){
-                    // 重要信息写入cookie和session
-                    // res.cookie("userId",doc.userId,{
-                    //     path:'/',
-                    //     maxAge:1000*60*60
-                    // });
-                    // req.session.user=doc;
-                    // console.log(req.session);
+                    //重要信息写入cookie和session
+                    res.cookie("userId",doc.userId,{
+                        path:'/',
+                        maxAge:1000*60*60
+                    });
+                    req.session.user=doc;
+                    req.session.userState=0;
+                    //console.log(req.session);
                     res.json({
                         status:"1",
                         msg:'',
@@ -121,7 +123,6 @@ router.get("/",function(req,res,next){
             })
             // console.log(doc);
         }
-        
     })
     // res.send('hello, goods list .')
 })

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  ul
+   each problem,i in problems
+    li 
+      div
+        a(href="/api/problem/show?pid=#{problem.id}") 第#{i}题：#{problem.title}
+      
+  

@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    a(href="/api/problem/create") 创建题目 
+    ul
+        each problem,i in problems
+            li 
+                div
+                    a(href="/api/problem/show?pid=#{problem.id}") 第#{i}题：#{problem.title}
+                div
+                    a(href="/api/problem/edit?pid=#{problem.id}") 修改
+                div   
+                    a(href="/api/problem/delete?pid=#{problem.id}") 删除
