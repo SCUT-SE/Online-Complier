@@ -12,34 +12,31 @@ var problemDB = require('../models/problem_datas');
  * 1-查询成功
  * 0-查询无结果
  */
-router.get('/public', function(req, res, next) {
+router.get('/public', function (req, res, next) {
     problemDB.find({
-        status:0
-    },function(err,data){
-        if(err){
+        status: 0
+    }, function (err, data) {
+        if (err) {
             //console.log('查询失败')
             res.json({
-                status:'500',
-                msg:err.message,
-                result:{}
+                status: '500',
+                msg: err.message,
+                result: {}
             });
-        }
-        else{
-            if(data){
+        } else {
+            if (data) {
                 res.json({
-                    status:"1",
-                    msg:'',
-                    result:{
-                        problemSet:data
+                    status: "1",
+                    msg: '',
+                    result: {
+                        problemSet: data
                     }
                 });
-            }
-            else{
+            } else {
                 res.json({
-                    status:"0",
-                    msg:'not found',
-                    result:{
-                    }
+                    status: "0",
+                    msg: 'not found',
+                    result: {}
                 });
             }
             // res.render('problem_all',{
@@ -47,7 +44,7 @@ router.get('/public', function(req, res, next) {
             // })
         }
     })
-  });
+});
 
 /**
  * 路由：/api/problem/myproblem
@@ -58,36 +55,32 @@ router.get('/public', function(req, res, next) {
  * 0-查询无结果
  * 2-无权限查询
  */
-  router.get('/myproblem', function(req, res, next) {
-    if(req.session.user)
-    {
+router.get('/myproblem', function (req, res, next) {
+    if (req.session.user) {
         problemDB.find({
-            author_id:req.session.user._id
-        },function(err,data){
-            if(err){
+            author_id: req.session.user._id
+        }, function (err, data) {
+            if (err) {
                 //console.log('查询失败')
                 res.json({
-                    status:'500',
-                    msg:err.message,
-                    result:{}
+                    status: '500',
+                    msg: err.message,
+                    result: {}
                 });
-            }
-            else{
-                if(data){
+            } else {
+                if (data) {
                     res.json({
-                        status:"1",
-                        msg:'',
-                        result:{
-                            problemSet:data
+                        status: "1",
+                        msg: '',
+                        result: {
+                            problemSet: data
                         }
                     });
-                }
-                else{
+                } else {
                     res.json({
-                        status:"0",
-                        msg:'not found',
-                        result:{
-                        }
+                        status: "0",
+                        msg: 'not found',
+                        result: {}
                     });
                 }
                 // console.log('我的题目')
@@ -97,17 +90,15 @@ router.get('/public', function(req, res, next) {
                 // })
             }
         })
-    }
-    else  //用户未登录
+    } else //用户未登录
     {
         res.json({
-            status:"2",
-            msg:'Insufficient permission',
-            result:{
-            }
+            status: "2",
+            msg: 'Insufficient permission',
+            result: {}
         });
     }
-  });
+});
 
 
 /**
@@ -119,65 +110,64 @@ router.get('/public', function(req, res, next) {
  * 0-查询无结果
  * 2-无权限查询
  */
-router.get('/show',function(req,res,next){
-    var problem_id=req.query.pid
+router.get('/show', function (req, res, next) {
+    var problem_id = req.query.pid
     problemDB.findOne({
         _id: problem_id
-    }, function(err, ret) {
+    }, function (err, ret) {
         if (err) {
             res.json({
-                status:'500',
-                msg:err.message,
-                result:{}
+                status: '500',
+                msg: err.message,
+                result: {}
             });
             //console.log('查询失败');
         } else {
-            if(data){
-                if(data.status===1){ //如果是隐私题目
-                    if(req.session.user&&req.session.user._id===data.author_id){  //只有作者可以获取题目信息
+            if (data) {
+                if (data.status === 1) { //如果是隐私题目
+                    if (req.session.user && req.session.user._id === data.author_id) { //只有作者可以获取题目信息
                         res.json({
-                            status:"1",
-                            msg:'',
-                            result:{
-                                problemSet:data
+                            status: "1",
+                            msg: '',
+                            result: {
+                                problemSet: data
                             }
                         });
-                    }
-                    else{
+                    } else {
                         res.json({
-                            status:"2",
-                            msg:'Insufficient permission',
-                            result:{}
+                            status: "2",
+                            msg: 'Insufficient permission',
+                            result: {}
                         });
                     }
-                }
-                else{
+                } else {
                     res.json({
-                        status:"1",
-                        msg:'',
-                        result:{
-                            problemSet:data
+                        status: "1",
+                        msg: '',
+                        result: {
+                            problemSet: data
                         }
                     });
                 }
-            }
-            else{
+            } else {
                 res.json({
-                    status:"0",
-                    msg:'not found',
-                    result:{}
+                    status: "0",
+                    msg: 'not found',
+                    result: {}
                 });
             }
             // console.log(ret)
             // res.render('problem_detail', { problem_title: ret.title ,problem_content:ret.content});
         }
     });
-    
+
 })
 
 
-router.get('/create',function(req,res,next){
-    res.render('problem_create', { title: 'problem create' });
+router.get('/create', function (req, res, next) {
+    res.render('problem_create', {
+        title: 'problem create'
+    });
 })
 
 
@@ -196,49 +186,53 @@ router.get('/create',function(req,res,next){
  * 1-创建成功
  * 2-无权限创建
  */
-router.post('/create',function(req,res,next){
+router.post('/create', function (req, res, next) {
     // console.log(req.body.problem_title)
     // console.log(req.body.problem_content)
-    if(req.session.user&&req.session.user.status===1){ //用户已登录且为面试官
+
+    // if(req.session.user&&req.session.user.status===1)
+    if (true) { //用户已登录且为面试官
         var problem = new problemDB({
-            author_id: req.session.user._id,
+
+            // author_id: req.session.user._id,
+            author_id: "12",
+
             title: req.body.problem_title,
-            image_url:req.body.image_url,
+            image_url: req.body.image_url,
             content: req.body.problem_content,
-            difficulty:req.body.difficulty,
-            status:req.body.status
+            difficulty: req.body.difficulty,
+            status: req.body.status
         });
-        
-        problem.save(function(err, data) {
+
+        problem.save(function (err, data) {
             if (err) {
                 res.json({
-                    status:'500',
-                    msg:err.message,
-                    result:{}
+                    status: '500',
+                    msg: err.message,
+                    result: {}
                 });
             } else {
                 // console.log('保存成功');
                 // console.log(ret);
                 res.json({
-                    status:"1",
-                    msg:'',
-                    result:{
-                        problemSet:data
+                    status: "1",
+                    msg: '',
+                    result: {
+                        problemSet: data
                     }
                 });
             }
             //res.redirect('/api/problem/myproblem')
         });
-    }
-    else{
+    } else {
         res.json({
-            status:"2",
-            msg:'Insufficient permission',
-            result:{}
+            status: "2",
+            msg: 'Insufficient permission',
+            result: {}
         });
     }
-    
-    
+
+
 })
 
 
@@ -251,44 +245,43 @@ router.post('/create',function(req,res,next){
  * 0-查询无结果
  * 2-无权限查询
  */
-router.get('/delete',function(req,res,next){
-    var problem_id=req.query.pid
+router.get('/delete', function (req, res, next) {
+    var problem_id = req.query.pid
     problemDB.findOne({
         _id: problem_id
-    }, function(err, data) {
+    }, function (err, data) {
         if (err) {
             res.json({
-                status:'500',
-                msg:err.message,
-                result:{}
+                status: '500',
+                msg: err.message,
+                result: {}
             });
             //console.log('查询失败');
         } else {
             if (data) {
-                if (req.session.user && req.session.user._id === data.author_id) {  //只有作者可以获取题目信息
+                if (req.session.user && req.session.user._id === data.author_id) { //只有作者可以获取题目信息
                     problemDB.remove({
                         _id: problem_id
-                    }, function(err, ret) {
+                    }, function (err, ret) {
                         if (err) {
                             res.json({
-                                status:'500',
-                                msg:err.message,
-                                result:{}
+                                status: '500',
+                                msg: err.message,
+                                result: {}
                             });
                         } else {
                             console.log('删除成功');
                             res.json({
-                                status:"1",
-                                msg:'',
-                                result:{
-                                    problemSet:ret
+                                status: "1",
+                                msg: '',
+                                result: {
+                                    problemSet: ret
                                 }
                             });
                         }
                         //res.redirect('/api/problem/myproblem')
                     });
-                }
-                else {
+                } else {
                     res.json({
                         status: "2",
                         msg: 'Insufficient permission',
@@ -296,12 +289,11 @@ router.get('/delete',function(req,res,next){
                     });
                 }
 
-            }
-            else{
+            } else {
                 res.json({
-                    status:"0",
-                    msg:'not found',
-                    result:{}
+                    status: "0",
+                    msg: 'not found',
+                    result: {}
                 });
             }
             // console.log(ret)
@@ -310,20 +302,22 @@ router.get('/delete',function(req,res,next){
     });
 })
 
-router.get('/edit',function(req,res,next){
-    var problem_id=req.query.pid
+router.get('/edit', function (req, res, next) {
+    var problem_id = req.query.pid
     problemDB.findOne({
         _id: problem_id
-    }, function(err, ret) {
+    }, function (err, ret) {
         if (err) {
             console.log('查询失败');
         } else {
             console.log('查询jieguo');
             console.log(ret)
-            res.render('problem_edit', { title: 'problem edit',  
-                                    problem_title: ret.title ,
-                                    problem_content: ret.content,
-                                    problem_id: ret._id});
+            res.render('problem_edit', {
+                title: 'problem edit',
+                problem_title: ret.title,
+                problem_content: ret.content,
+                problem_id: ret._id
+            });
         }
     });
 })
@@ -346,49 +340,48 @@ router.get('/edit',function(req,res,next){
  * 1-创建成功
  * 2-无权限创建
  */
-router.post('/edit',function(req,res,next){
-    var problem_id=req.query.pid
+router.post('/edit', function (req, res, next) {
+    var problem_id = req.query.pid
     problemDB.findOne({
         _id: problem_id
-    }, function(err, data) {
+    }, function (err, data) {
         if (err) {
             res.json({
-                status:'500',
-                msg:err.message,
-                result:{}
+                status: '500',
+                msg: err.message,
+                result: {}
             });
             //console.log('查询失败');
         } else {
             if (data) {
-                if (req.session.user && req.session.user._id === data.author_id) {  //只有作者可以获取题目信息
+                if (req.session.user && req.session.user._id === data.author_id) { //只有作者可以获取题目信息
                     problemDB.findByIdAndUpdate(req.query.pid, {
                         title: req.body.problem_title,
                         content: req.body.problem_content,
-                        image_url:req.body.image_url,
-                        difficulty:req.body.difficulty,
-                        status:req.body.status
-                    }, function(err, ret) {
+                        image_url: req.body.image_url,
+                        difficulty: req.body.difficulty,
+                        status: req.body.status
+                    }, function (err, ret) {
                         if (err) {
                             //console.log('更新失败');
                             res.json({
-                                status:'500',
-                                msg:err.message,
-                                result:{}
+                                status: '500',
+                                msg: err.message,
+                                result: {}
                             });
                         } else {
                             //console.log('更新成功');
                             res.json({
-                                status:"1",
-                                msg:'',
-                                result:{
-                                    problemSet:ret
+                                status: "1",
+                                msg: '',
+                                result: {
+                                    problemSet: ret
                                 }
                             });
                         }
                         //res.redirect('/api/problem/myproblem')
                     });
-                }
-                else {
+                } else {
                     res.json({
                         status: "2",
                         msg: 'Insufficient permission',
@@ -396,20 +389,19 @@ router.post('/edit',function(req,res,next){
                     });
                 }
 
-            }
-            else{
+            } else {
                 res.json({
-                    status:"0",
-                    msg:'not found',
-                    result:{}
+                    status: "0",
+                    msg: 'not found',
+                    result: {}
                 });
             }
             // console.log(ret)
             // res.render('problem_detail', { problem_title: ret.title ,problem_content:ret.content});
         }
     });
-    
-    
+
+
 })
 
 module.exports = router;
