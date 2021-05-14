@@ -26,7 +26,7 @@ const InterviewerProblem = () => import('views/interviewer/InterviewerProblem')
 const InterviewerProblemChoose = () => import('views/interviewer/InterviewerProblemChoose')
 const InterviewerProblemEdit = () => import('views/interviewer/InterviewerProblemEdit')
 const InterviewerProblemCreate = () => import('views/interviewer/InterviewerProblemCreate')
-
+const Login = () => import('views/Login')
 //安装插件
 Vue.use(VueRouter)
 //清除路由重复报错
@@ -41,9 +41,13 @@ VueRouter.prototype.replace = function replace(location) {
 //创建路由对象
 const routes = [{
     path: '/',
-    redirect: '/problem'
+    redirect: '/login'
   },
-
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
   {
     path: '/problem',
     name: 'Problem',
