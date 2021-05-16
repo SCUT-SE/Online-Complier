@@ -1,22 +1,23 @@
 <template>
   <div id="app">
-    <!-- <h1>app</h1>
-    <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- 路由占位符 -->
-    <router-view></router-view>
-    <router-view name='problem'></router-view>
-    <router-view name='question'></router-view>
-
+    <tab-bar> </tab-bar>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<script>
+import TabBar from "components/tabbar/TabBar";
+export default {
+  name: "App",
+  components: { TabBar },
+};
+</script>
+
+<style scoped>
+@import "~assets/css/base.css";
+.content {
+  margin-top: 44px;
 }
 </style>
