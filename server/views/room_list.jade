@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  div
+    a(href="/api/room/create") 创建房间
+  each room,i in myRooms
+    a(href="/api/room/show?rid=#{room.id}") 房间:#{room.room_name} 
+    span 邀请码：#{room._id} 
+    br
+    
+    

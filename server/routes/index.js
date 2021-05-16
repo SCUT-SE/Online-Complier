@@ -9,8 +9,6 @@ router.get('/', function(req, res, next) {
     if(err){
       console.log('查询失败');
     }else{
-      console.log("题目列表")
-      console.log(ret)
       res.render('index', { title: 'Express' ,problems: ret});
     }
   });

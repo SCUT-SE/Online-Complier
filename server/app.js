@@ -17,6 +17,7 @@ var loginRouter = require('./routes/reqLogin')
 var signInRouter = require('./routes/reqSignIn')
 
 var ojRouter=require('./routes/problems')
+var roomRouter=require('./routes/rooms')
 
 // 链接数据库
 mongoose.connect('mongodb://127.0.0.1:27017/demo_oj');
@@ -55,6 +56,7 @@ app.use('/', indexRouter);
 app.use('/api/reqLogin',loginRouter);
 app.use('/api/reqSignIn',signInRouter);
 app.use('/api/problem',ojRouter);
+app.use('/api/room',roomRouter);
 
 
 // catch 404 and forward to error handler

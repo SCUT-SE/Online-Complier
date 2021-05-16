@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(action="/api/room/create" method="post")
+    span 房间名称
+    input(type="text" name="room_name")
+    br
+    ul
+     div 公开题目
+     each problem,i in publicProblems
+        li 
+            input(type="checkbox" name="problem_select" value="#{problem._id}") 
+            a(href="/api/problem/show?pid=#{problem.id}")   #{problem.title}
+     div 我的私有题目
+     each problem,i in myPrivateProblems
+        li 
+            input(type="checkbox" name="problem_select" value="#{problem._id}") 
+            a(href="/api/problem/show?pid=#{problem.id}")  #{problem.title}
+    
+    input(type="submit")
