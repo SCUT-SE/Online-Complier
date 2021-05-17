@@ -346,4 +346,63 @@ router.get('/problemall',function(req,res,next){
     
 })
 
+
+router.get('/delete', function (req, res, next) {
+    var room_id = req.query.rid
+    roomDB.findOne({
+        _id: room_id
+    }, function (err, data) {
+        if (err) {
+            res.json({
+                status: '500',
+                msg: err.message,
+                result: {}
+            });
+            //console.log('查询失败');
+        } else {
+            if (data) {
+                if (req.session.user && req.session.user._id === data.creator_id) { //只有作者可以获取题目信息
+                    roomDB.remove({
+                        _id: room_id
+                    }, function(err, data1) {
+
+                        if (err) {
+                            res.json({
+                                status: '500',
+                                msg: err.message,
+                                result: {}
+                            });
+                        } else {
+                            console.log('删除成功');
+                            res.json({
+                                status:"1",
+                                msg:'',
+                                result:{
+                                    deleteData:data1
+                                }
+                            });
+                        }
+                        //res.redirect('/api/problem/myproblem')
+                    });
+                } else {
+                    res.json({
+                        status: "2",
+                        msg: 'Insufficient permission',
+                        result: {}
+                    });
+                }
+
+            } else {
+                res.json({
+                    status: "0",
+                    msg: 'not found',
+                    result: {}
+                });
+            }
+            // console.log(ret)
+            // res.render('problem_detail', { problem_title: ret.title ,problem_content:ret.content});
+        }
+    });
+})
+
 module.exports = router;
